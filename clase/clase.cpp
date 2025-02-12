@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <string> // Se agregó para evitar ambigüedades con std::string
+#include <string> 
 
 using namespace std;
 
@@ -19,7 +19,7 @@ public:
     }
     void mostrar() {
         cout << "Código: " << codigo << ", Producto: " << nombre
-            << ", Precio: Q" << precio << ", Stock: " << stock << endl;
+             << ", Precio: Q" << precio << ", Stock: " << stock << endl;
     }
     int obtenerCodigo() {
         return codigo;
@@ -30,8 +30,7 @@ public:
     void actualizarStock(int cantidad) {
         if (cantidad > stock) {
             cout << "No hay suficiente stock disponible." << endl;
-        }
-        else {
+        } else {
             stock -= cantidad;
             cout << "Stock actualizado. Nuevo stock: " << stock << endl;
         }
@@ -41,14 +40,13 @@ public:
     }
 };
 
-// Funciones para gestionar el inventario
 void agregarProducto(vector<Producto>& inventario) {
     string nombre;
     int codigo, stock;
     float precio;
 
     cout << "Ingrese el nombre del producto: ";
-    cin >> ws; // Limpia el buffer de entrada
+    cin >> ws; 
     getline(cin, nombre);
     cout << "Ingrese el código: ";
     cin >> codigo;
@@ -107,7 +105,23 @@ void calcularValorTotal(vector<Producto>& inventario) {
     cout << "Valor total del inventario: Q" << total << endl;
 }
 
-// Función main
+
+void eliminarProducto(vector<Producto>& inventario) {
+    int codigo;
+    cout << "Ingrese el código del producto a eliminar: ";
+    cin >> codigo;
+
+    for (size_t i = 0; i < inventario.size(); i++) {
+        if (inventario[i].obtenerCodigo() == codigo) {
+            inventario.erase(inventario.begin() + i); 
+            cout << "Producto eliminado correctamente.\n";
+            return;
+        }
+    }
+    cout << "Producto no encontrado.\n";
+}
+
+
 int main() {
     vector<Producto> inventario;
     int opcion;
@@ -119,21 +133,22 @@ int main() {
         cout << "3. Buscar producto por código\n";
         cout << "4. Actualizar stock\n";
         cout << "5. Calcular valor total del inventario\n";
-        cout << "6. Salir\n";
+        cout << "6. Eliminar producto\n";  // Se agregó esta opción
+        cout << "7. Salir\n";
         cout << "Seleccione una opción: ";
         cin >> opcion;
 
         switch (opcion) {
-        case 1: agregarProducto(inventario); break;
-        case 2: mostrarInventario(inventario); break;
-        case 3: buscarProducto(inventario); break;
-        case 4: actualizarStock(inventario); break;
-        case 5: calcularValorTotal(inventario); break;
-        case 6: cout << "Saliendo del programa...\n"; break;
-        default: cout << "Opción no válida, intente de nuevo.\n";
+            case 1: agregarProducto(inventario); break;
+            case 2: mostrarInventario(inventario); break;
+            case 3: buscarProducto(inventario); break;
+            case 4: actualizarStock(inventario); break;
+            case 5: calcularValorTotal(inventario); break;
+            case 6: eliminarProducto(inventario); break; 
+            case 7: cout << "Saliendo del programa...\n"; break;
+            default: cout << "Opción no válida, intente de nuevo.\n";
         }
-    } while (opcion != 6);
+    } while (opcion != 7);
 
     return 0;
 }
-
